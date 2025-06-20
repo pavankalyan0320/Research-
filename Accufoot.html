@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AccuFoot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; display: flex; flex-direction: column; align-items: center;}
+        h1 { color: #333; text-align: center; }
+        .tagline { text-align: center; font-style: italic; color: #666; margin-bottom: 20px; }
+        .main-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 90%; max-width: 1200px; }
+        form { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .form-and-submit { display: flex; flex-direction: column; align-items: center; width: auto; }
+        .form-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 20px; width: auto; }
+        .form-section { width: 280px; padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .form-section h2 { text-align: center; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; color: #555; }
+        label { display: block; margin-top: 8px; margin-bottom: 3px; font-weight: bold; font-size: 0.9em; }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; margin-top: 3px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .disease-selection-area { max-height: 250px; overflow-y: auto; border: 1px solid #eee; padding: 10px; margin-top: 5px; border-radius: 4px; }
+        .disease-checkbox { margin-bottom: 5px; font-size: 0.9em; }
+        .disease-checkbox label { display: inline; margin-left: 5px; font-weight: normal; }
+        .disease-checkbox input:disabled + label { color: #999; opacity: 0.6; cursor: not-allowed; }
+        .disease-checkbox input:disabled { cursor: not-allowed; }
+        input[type="submit"] { margin-top: 25px; padding: 12px 24px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.2s ease; }
+        input[type="submit"]:hover { background-color: #45a049; }
+        input[type="submit"]:disabled { background-color: #cccccc; cursor: not-allowed; }
+        #message-area { width: 80%; max-width: 600px; margin: 15px auto; }
+        .alert { padding: 10px 15px; margin-bottom: 15px; border: 1px solid transparent; border-radius: 4px; text-align: center; display: none; }
+        .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+        .alert-error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .alert-warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
+        #stl-viewer-container { width: 400px; height: 450px; border: 1px solid #ccc; background-color: #e9e9e9; margin-top: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; }
+        #stl-viewer-container canvas { display: block; }
+        #viewer-message { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>AccuFoot</h1>
+    <p class="tagline">Wellness from the ground up – where science meets sole.</p>
+    <div id="message-area"></div>
+    <div class="main-container">
+        <div class="form-and-submit">
+            <form id="accufoot-form">
+                <div class="form-container">
+                    <div class="form-section">
+                        <h2>Personal Information</h2>
+                        <label for="name">*Name:</label>
+                        <input type="text" id="name" name="name" required>
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <label for="foot">Foot Selection:</label>
+                        <select id="foot" name="foot" required>
+                            <option value="left">Left Foot</option>
+                            <option value="right">Right Foot</option>
+                        </select>
+                        <label for="size">Foot Size (UK):</label>
+                        <select id="size" name="size" required>
+                            <option value="5">UK 5</option>
+                            <option value="6">UK 6</option>
+                            <option value="7">UK 7</option>
+                            <option value="8">UK 8</option>
+                            <option value="9">UK 9</option>
+                            <option value="10" selected>UK 10</option>
+                            <option value="11">UK 11</option>
+                            <option value="12">UK 12</option>
+                        </select>
+                    </div>
+                    <div class="form-section">
+                        <h2>Select Target Reflexology Areas</h2>
+                        <div class="disease-selection-area">
+                            <div class="disease-checkbox"><input type="checkbox" id="area_adrenal" name="areas" value="ADRENAL_GLAND"><label for="area_adrenal">Adrenal Gland</label></div>
+                            <div class="disease-checkbox left-only"><input type="checkbox" id="area_appendix" name="areas" value="APPENDIX"><label for="area_appendix">Appendix</label></div>
+                            <div class="disease-checkbox left-only"><input type="checkbox" id="area_ascending_colon" name="areas" value="ASCENDING_COLON"><label for="area_ascending_colon">Ascending Colon</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_bladder" name="areas" value="BLADDER"><label for="area_bladder">Bladder</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_brain_stem" name="areas" value="BRAIN_STEM"><label for="area_brain_stem">Brain Stem</label></div>
+                            <div class="disease-checkbox right-only"><input type="checkbox" id="area_descending_colon" name="areas" value="DESCENDING_COLON"><label for="area_descending_colon">Descending Colon</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_duodenum" name="areas" value="DUODENUM"><label for="area_duodenum">Duodenum</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_ear" name="areas" value="EAR"><label for="area_ear">Ear</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_eye" name="areas" value="EYE"><label for="area_eye">Eye</label></div>
+                            <div class="disease-checkbox left-only"><input type="checkbox" id="area_gall_bladder" name="areas" value="GALL_BLADDER"><label for="area_gall_bladder">Gall Bladder</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_head_brain" name="areas" value="HEAD_BRAIN"><label for="area_head_brain">Head / Brain</label></div>
+                            <div class="disease-checkbox right-only"><input type="checkbox" id="area_heart" name="areas" value="HEART"><label for="area_heart">Heart</label></div>
+                            <div class="disease-checkbox right-only"><input type="checkbox" id="area_anus" name="areas" value="ANUS"><label for="area_anus">Anus</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_kidney" name="areas" value="KIDNEY"><label for="area_kidney">Kidney</label></div>
+                            <div class="disease-checkbox left-only"><input type="checkbox" id="area_liver" name="areas" value="LIVER"><label for="area_liver">Liver</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_lungs" name="areas" value="LUNGS"><label for="area_lungs">Lungs / Bronchi</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_neck" name="areas" value="NECK"><label for="area_neck">Neck</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_pancreas" name="areas" value="PANCREAS"><label for="area_pancreas">Diabetic/Pancreas</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_pituitary" name="areas" value="PITUITARY_GLAND"><label for="area_pituitary">Pituitary Gland</label></div>
+                            <div class="disease-checkbox right-only"><input type="checkbox" id="area_rectum" name="areas" value="RECTUM"><label for="area_rectum">Rectum</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_sex_gland" name="areas" value="SEX_GLAND"><label for="area_sex_gland">Sex Gland / Reproductive</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_sinus" name="areas" value="SINUS"><label for="area_sinus">Sinus</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_small_intestine" name="areas" value="SMALL_INTESTINE"><label for="area_small_intestine">Small Intestine</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_solar_plexus" name="areas" value="SOLAR_PLEXUS"><label for="area_solar_plexus">Solar Plexus</label></div>
+                            <div class="disease-checkbox right-only"><input type="checkbox" id="area_spleen" name="areas" value="SPLEEN"><label for="area_spleen">Spleen</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_stomach" name="areas" value="STOMACH"><label for="area_stomach">Stomach</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_thyroid" name="areas" value="THYROID"><label for="area_thyroid">Thyroid Gland</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_trapezoid" name="areas" value="TRAPEZOID"><label for="area_trapezoid">Trapezoid Muscle</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_transverse_colon" name="areas" value="TRANSVERSE_COLON"><label for="area_transverse_colon">Transverse Colon</label></div>
+                            <div class="disease-checkbox"><input type="checkbox" id="area_ureter" name="areas" value="URETER"><label for="area_ureter">Ureter</label></div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Generate Footwear">
+            </form>
+        </div>
+        <div id="stl-viewer-container">
+            <div id="viewer-message">Submit form to generate & view STL</div>
+        </div>
+    </div>
+    <script src="form_handler.js"></script>
+</body>
+</html>
